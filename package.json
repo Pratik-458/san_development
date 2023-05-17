@@ -1,0 +1,23 @@
+{
+  "name": "san_development",
+  "version": "1.0.0",
+  "description": "Smart AI driven notes taking application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pratik-458/san_development.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pratik-458/san_development/issues"
+  },
+  "homepage": "https://github.com/Pratik-458/san_development#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
