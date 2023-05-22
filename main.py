@@ -1,6 +1,8 @@
 import speech_recognition as sr
 import json
 import requests
+from flask import Flask
+app = Flask(__name__)
 
 def main():
   r = sr.Recognizer()
@@ -23,7 +25,16 @@ def main():
       data = {
            "content": read_contents
           }
+      with open("recognized.json","w") as j:
+        j.write(json_data)
+
       json_data = json.dumps(data)
+
+      @app.route("/")
+      def hello():
+        return json_data
+      hello()
+
       print(json_data)
 
       with open("recognized.json","w") as j:
@@ -47,3 +58,4 @@ def main():
 
 if __name__ == "__main__":
   main()
+  app.run(port=8000)
