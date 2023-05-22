@@ -19,14 +19,14 @@ def main():
         f.write(r.recognize_google(audio))
 
       # Read the contents of the file
-      with open("recognized.txt", "r") as r:
-        read_contents = r.read()
+      # with open("recognized.txt", "r") as r:
+      #   read_contents = r.read()
 
       data = {
            "content": read_contents
           }
-      with open("recognized.json","w") as j:
-        j.write(json_data)
+      # with open("recognized.json","w") as j:
+      #   j.write(json_data)
 
       json_data = json.dumps(data)
 
