@@ -5,8 +5,9 @@ function getNotesByUserId(req, callBack) {
   return dbcollection.find({ title: req }).toArray(callBack);
 }
 
-function getAllNotes(req, callBack) {
-  dbcollection.find({ userId: req }).toArray(callBack);
+function getAllNotes(callBack) {
+  //dbcollection.find({ userId: req }).toArray(callBack);
+  dbcollection.find().toArray(callBack);
 }
 
 function addNotes(note, callBack) {
