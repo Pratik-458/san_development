@@ -2,38 +2,113 @@ const addCards = (items) => {
     console.log(items);
 }
 
-const submitForm = () => {
+var userdata= [] ;
+
+
+//getting user data from html
+const submitUserForm = () => {
     let formData = {};
     formData.Firstname = $('#Firstname').val();
     formData.Lastname = $('#Lastname').val();
     formData.email = $('#email').val();
     formData.password = $('#password').val();
+    email_user = $('#email').val();
+    //console.log('form data: ', formData);
+    addUserData(formData);
+   
+}
+
+const submitNotesForm = () => {
+    let NoteData = {};
+    NoteData.email = email_user;
+    NoteData.description = $('#description').val();
 
     //console.log('form data: ', formData);
     addData(formData);
    
 }
 
-const getData = () => {
-    $.get('/api/notes', (res) => {
+
+//TO get all the data
+const getUserData = () => {
+    $.get('/api/user', (res) => {
         if (res.statusCode === 200) {
+            userdata = res.data;
             console.log(res.data)
             //addCards(res.data);
         }
     });
 }
 
-//adding data to the database.
-const addData = (data) => {
-    $.ajax({
-        url: '/Signup',
-        data: data,
-        type: 'POST',
-        success: (result) => {
-            alert(result.message);
-            location.reload();
+//getting partiular data id
+const getUserdataid = () =>{
+    let k = 0;
+    let data = {}
+     data.email = $('#email').val();
+     data.password = $('#password').val(); 
+    for(var i=0; i < userdata.length; i++)
+    {
+        if(data.email == userdata[i].email)
+        {
+            if(data.password == userdata[i].password){
+            localStorage.setItem("email",userdata[i].email);
+            console.log("sucess");
+            location.href = "\home"
+             k = 1;
+            }
+            else
+            {
+                alert("password wrong");
+            }
         }
-    });
+    }
+
+   if(k==1)
+   {
+    console.log("user found");
+   }
+   else{
+    alert("User not registered");
+   }
+}
+
+
+
+
+//adding user data to the database.
+const addUserData = (data) => {
+    
+    let flag = 0;
+    for(var i=0; i < userdata.length; i++)
+    {
+        if(data.email == userdata[i].email)
+        {
+            alert("User already existe, please login");
+            flag = 1;
+            exit;
+        }
+    }
+
+    if(flag == 0)
+    {
+        $.ajax({
+            url: '/Signup',
+            data: data,
+            type: 'POST',
+            success: (result) => {
+                   
+            alert(result.message);
+            //location.reload();
+            }
+        });
+    }
+    
+}
+
+const getlocalvalue = () =>{
+    $.get('/login');
+    console.log(localStorage.getItem('email'))
+    localStorage.clear()
 }
 
 //function myFunction(){
@@ -44,12 +119,24 @@ const addData = (data) => {
 
 $(document).ready(function(){
     
+
+    getUserData();
+
     $('.materialboxed').materialbox();
     //$('.modal').modal();
     $('#formSubmit').click(()=>{
-        submitForm();
+        submitUserForm();
     })
 
-    getData();
+    //For login
+    $('#LoginSubmit').click(()=>{
+        getUserdataid(); 
+    })
+
+    $('#check').click(()=>{
+        getlocalvalue();
+    })
+
+  
 
 });
