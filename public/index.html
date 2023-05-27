@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Notes</title>
+  <link type="image/png" sizes="32x32" rel="icon" href="images/icons8-done-32.png">
 
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -16,11 +17,69 @@
 </head>
 
 <body>
-
+  <nav>
+    <div class="nav-wrapper black">
+      <div class="input-field">
+        <input type="search" name="" id="search" placeholder= "Enter atleast 3 letters to perform search and hit enter to perform search">
+        <label for="search" class="label-icon"> <i class="material-icons">search</i></label>
+        <i class="material-icons">close</i>
+      </div>
+    </div>
+    <div>
+      <ul id="slide-out" class="sidenav">
+        <li>
+          <div class="user-view">
+            <div class="background">
+              <img src="images/user-background.jpg">
+            </div>
+            <a href="#user"><img class="circle" src="images/user-image.png"></a>
+            <a href="#name"><span class="white-text name">John Doe</span></a>
+            <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+          </div>
+        </li>
+        <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+        <li><a href="#!">Second Link</a></li>
+        <li>
+          <div class="divider"></div>
+        </li>
+        <li><a class="subheader">Subheader</a></li>
+        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+      </ul>
+      <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
 
   <main class="main-body">
-
+    <div id="notesBody">
+  </div>
   </main>
+
+  <footer class="page-footer black">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">About S.A.N</h5>
+          <p class="grey-text text-lighten-4">S.A.N Smart AI-Based Note-Taking Application provides a comprehensive
+            solution to the inefficiencies of traditional note-taking methods.</p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <h5 class="white-text">Links</h5>
+          <ul>
+            <li><a class="grey-text text-lighten-3" href="#!">Support page</a></li>
+            <li><a class="grey-text text-lighten-3" href="#!">FAQ</a></li>
+            <li><a class="grey-text text-lighten-3" href="#!">Contact us</a></li>
+            <li><a class="grey-text text-lighten-3" href="#!">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+        © 2023 Copyright S.A.N Dev team
+        <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+      </div>
+    </div>
+  </footer>
 
   <!-- Compiled and minified JavaScript -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"
