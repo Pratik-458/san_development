@@ -51,4 +51,7 @@ router.post("/Signup", (req, res) => {
   controller.addUser(req, res);
 });
 
+router.get("/search/notes", (req, res) => {
+  controller.performSearch(req, res);
+});
 module.exports = router;
