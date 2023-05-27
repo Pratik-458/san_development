@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 var collapsibleElem = document.querySelector(".collapsible");
 
 var collapsibleInstance = M.Collapsible.init(collapsibleElem, []);
-var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
+var collapsibleInstance = M.Collapsible.init(collapsibleElem, []);
 
 
 // Or with jQuery
