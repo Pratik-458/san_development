@@ -207,4 +207,3 @@ const displayNotes = function(notes){
                 $("#notesBody").append("<p>No notes to display.</p>");
             }
 }
-});
