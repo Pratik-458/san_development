@@ -1,11 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
   var elems = document.querySelectorAll(".sidenav");
+
   var instances = M.Sidenav.init(elems, []);
 });
 
 // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
 var collapsibleElem = document.querySelector(".collapsible");
+
 var collapsibleInstance = M.Collapsible.init(collapsibleElem, []);
+var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
+
 
 // Or with jQuery
 
@@ -126,6 +130,7 @@ const getlocalvalue = () =>{
 }
 
 
+
 const loadAllNotes = () =>{
     $.get('/api/notes', (res) => {
         if (res.statusCode === 200) {
@@ -133,6 +138,7 @@ const loadAllNotes = () =>{
         }
     });
 }
+
 
 //function myFunction(){
 //  submitForm();
@@ -159,6 +165,7 @@ $(document).ready(function(){
     $('#check').click(()=>{
         getlocalvalue();
     })
+
     console.log("load all notes");
     loadAllNotes();
 
@@ -200,3 +207,4 @@ const displayNotes = function(notes){
                 $("#notesBody").append("<p>No notes to display.</p>");
             }
 }
+});

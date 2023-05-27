@@ -11,9 +11,33 @@ const getAllNotes = (req, res) => {
   });
 };
 
+// Getting all the user data.
+const getAlluser = (req, res) => {
+  model.getAllUser((error, result) => {
+    if (!error) {
+      res.json({ statusCode: 200, data: result, message: "success!" });
+    } else {
+      console.log(error);
+    }
+  });
+};
+
+
 const getNotesByUserId = (req, res) => {
   let title = req.params.title;
   model.getNotesByUserId(title, (error, result) => {
+    if (!error) {
+      res.json({ statusCode: 200, data: result, message: "success!" });
+    } else {
+      console.log(error);
+    }
+  });
+};
+
+//getting user data by id
+const getUserDataById = (req, res) => {
+  let email = req.params.email;
+  model.getUserDataById(email, (error, result) => {
     if (!error) {
       res.json({ statusCode: 200, data: result, message: "success!" });
     } else {
@@ -35,6 +59,28 @@ const addNotes = (req, res) => {
     model.addNotes(note, (error, result) => {
       if (!error) {
         res.json({ statusCode: 200, data: result, message: "Added" });
+      } else {
+        console.log(error);
+        res.json({ statusCode: 400, data: error, message: "Failed" });
+      }
+    });
+  }
+};
+
+//Adding user to database
+const addUser = (req, res) => {
+  let note = req.body;
+  if (Object.keys(req.body).length === 0) {
+    res.status(400);
+    res.json({
+      statusCode: 400,
+      data: {},
+      message: "Missing request body.",
+    });
+  } else {
+    model.addUser(note, (error, result) => {
+      if (!error) {
+        res.json({ statusCode: 200, data: result, message: "User Added" });
       } else {
         console.log(error);
         res.json({ statusCode: 400, data: error, message: "Failed" });
@@ -107,5 +153,8 @@ module.exports = {
   addNotes,
   updateNotes,
   deleteNotes,
+  addUser,
+  getAlluser,
+  getUserDataById,
   performSearch
 };
