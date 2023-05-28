@@ -1,11 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
   var elems = document.querySelectorAll(".sidenav");
-  var instances = M.Sidenav.init(elems, options);
+
+  var instances = M.Sidenav.init(elems, []);
 });
 
 // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
 var collapsibleElem = document.querySelector(".collapsible");
-var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
+
+var collapsibleInstance = M.Collapsible.init(collapsibleElem, []);
+var collapsibleInstance = M.Collapsible.init(collapsibleElem, []);
+
 
 // Or with jQuery
 
@@ -125,6 +129,17 @@ const getlocalvalue = () =>{
     localStorage.clear()
 }
 
+
+
+const loadAllNotes = () =>{
+    $.get('/api/notes', (res) => {
+        if (res.statusCode === 200) {
+            displayNotes(res.data);
+        }
+    });
+}
+
+
 //function myFunction(){
 //  submitForm();
 //getdata();
@@ -151,6 +166,44 @@ $(document).ready(function(){
         getlocalvalue();
     })
 
-  
+    console.log("load all notes");
+    loadAllNotes();
 
 });
+
+$("#search").change(function(){
+    var searchText = this.value;
+    if(this.value.length > 2){
+        $.get('/notes/search?query='+searchText, (res) => {
+            if (res.statusCode === 200) {
+                displayNotes(res.data);
+            }else{
+                console.log("error while getting search results");
+            }
+        }); 
+    }else if(this.value.length == 0){
+        loadAllNotes();
+    }
+});
+
+const displayNotes = function(notes){
+
+    $('#notesBody').empty();
+    if(notes.length >0){
+
+    notes.forEach(notes=>{
+        if(notes.title){
+        $("#notesBody").append(
+
+            $("<div>", {id: notes._id, "class": "note"}).append(
+                $("<h1>"+notes.title+"</h1>")
+            ).append(
+                $("<p>"+notes.description+"</p>")
+            )
+
+
+        )}});
+            }else{
+                $("#notesBody").append("<p>No notes to display.</p>");
+            }
+}
