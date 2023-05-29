@@ -150,3 +150,20 @@ $(document).ready(function () {
     getlocalvalue();
   });
 });
+
+const displayNotes = function (notes) {
+  $("#notesBody").empty();
+  if (notes.length > 0) {
+    notes.forEach((notes) => {
+      if (notes.title) {
+        $("#notesBody").append(
+          $("<div>", { id: notes._id, class: "note" })
+            .append($("<h1>" + notes.title + "</h1>"))
+            .append($("<p>" + notes.description + "</p>"))
+        );
+      }
+    });
+  } else {
+    $("#notesBody").append("<p>No notes to display.</p>");
+  }
+};
