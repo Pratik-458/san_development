@@ -1,7 +1,6 @@
 let model = require("../model/model");
 
 const getAllNotes = (req, res) => {
-  console.log('test');
   model.getAllNotes((error, result) => {
     if (!error) {
       res.json({ statusCode: 200, data: result, message: "success!" });
@@ -124,28 +123,29 @@ const deleteNotes = (req, res) => {
     }
   });
 };
-const performSearch = (req,res)=>{
-
-  let queryString = req.query.query
-  let resData =[];
+const performSearch = (req, res) => {
+  let queryString = req.query.query;
+  let resData = [];
   model.getAllNotes((error, result) => {
     if (!error) {
       queryString = queryString.replace(/[^a-zA-Z ]/g, "").toLowerCase();
-      result.forEach((notes)=>{
-        if(notes.title){
-        if(notes.title.toLowerCase().includes(queryString) || notes.description.toLowerCase().includes(queryString)){
-          resData.push(notes);
+      result.forEach((notes) => {
+        if (notes.title) {
+          if (
+            notes.title.toLowerCase().includes(queryString) ||
+            notes.description.toLowerCase().includes(queryString)
+          ) {
+            resData.push(notes);
+          }
         }
-      }
       });
       res.json({ statusCode: 200, data: resData, message: "success!" });
     } else {
       console.log("Error While processing the search");
-      res.status(500).json({msg:"Internal server error."});
+      res.status(500).json({ msg: "Internal server error." });
     }
   });
-
-}
+};
 module.exports = {
   getAllNotes,
   getNotesByUserId,
@@ -155,5 +155,5 @@ module.exports = {
   addUser,
   getAlluser,
   getUserDataById,
-  performSearch
+  performSearch,
 };
