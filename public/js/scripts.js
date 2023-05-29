@@ -1,156 +1,152 @@
-document.addEventListener("DOMContentLoaded", function () {
-  var elems = document.querySelectorAll(".sidenav");
-  var instances = M.Sidenav.init(elems, options);
-});
-
-// Initialize collapsible (uncomment the lines below if you use the dropdown variation)
-var collapsibleElem = document.querySelector(".collapsible");
-var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
-
-// Or with jQuery
-
-$(document).ready(function () {
-  $(".sidenav").sidenav();
-});
-const addCards = (items) => {
-  console.log(items);
+const clickMe = () => {
+  console.log("clickMe clicked");
 };
 
-var userdata= [] ;
+const addCards = (items) => {
+  items.forEach((item) => {
+    let itemToAppend =
+      '<div class="note"><h1>' +
+      item.title +
+      "</h1><p>" +
+      item.description +
+      '</p><div class="col s12 center-align"><a class="waves-effect waves-light btn-small click-me-button modal-trigger deep-purple lighten-2" id="clickMeButton" data-target="modal2"><i class="material-icons left">mode_edit</i>Edit</a></div></div>';
+    $("#card-section").append(itemToAppend);
+  });
+};
 
+var userdata = [];
 
 //getting user data from html
 const submitUserForm = () => {
-    let formData = {};
-    formData.Firstname = $('#Firstname').val();
-    formData.Lastname = $('#Lastname').val();
-    formData.email = $('#email').val();
-    formData.password = $('#password').val();
-    email_user = $('#email').val();
-    //console.log('form data: ', formData);
-    addUserData(formData);
-   
-}
+  let formData = {};
+  formData.firstName = $("#Firstname").val();
+  formData.lastName = $("#Lastname").val();
+  formData.email = $("#email").val();
+  formData.password = $("#password").val();
+  emailUser = $("#email").val();
+  addUserData(formData);
+};
 
+// need to update from local storage
 const submitNotesForm = () => {
-    let NoteData = {};
-    NoteData.email = email_user;
-    NoteData.description = $('#description').val();
-
-    //console.log('form data: ', formData);
-    addData(formData);
-   
-}
-
-
+  let NoteData = {};
+  NoteData.noteId = "";
+  NoteData.firstName = "tom";
+  NoteData.email = "tom@mail.com";
+  NoteData.title = $("#title").val();
+  NoteData.description = $("#description").val();
+  addNotesData(NoteData);
+};
+//this gets a array of user data objs
 //TO get all the data
 const getUserData = () => {
-    $.get('/api/user', (res) => {
-        if (res.statusCode === 200) {
-            userdata = res.data;
-            console.log(res.data)
-            //addCards(res.data);
-        }
-    });
-}
+  $.get("/api/user", (res) => {
+    if (res.statusCode === 200) {
+      userdata = res.data;
+      console.log(res.data);
+    }
+  });
+};
+
+const getAllUserNotes = () => {
+  $.get(
+    "/api/notesbyuserid?email=" + localStorage.getItem("email"),
+    (response) => {
+      if (response.statusCode === 200) {
+        addCards(response.data);
+      }
+    }
+  );
+};
 
 //getting partiular data id
-const getUserdataid = () =>{
-    let k = 0;
-    let data = {}
-     data.email = $('#email').val();
-     data.password = $('#password').val(); 
-    for(var i=0; i < userdata.length; i++)
-    {
-        if(data.email == userdata[i].email)
-        {
-            if(data.password == userdata[i].password){
-            localStorage.setItem("email",userdata[i].email);
-            console.log("sucess");
-            location.href = "\home"
-             k = 1;
-            }
-            else
-            {
-                alert("password wrong");
-            }
-        }
+const getUserdataid = () => {
+  let k = 0;
+  let data = {};
+  data.email = $("#email").val();
+  data.password = $("#password").val();
+  for (var i = 0; i < userdata.length; i++) {
+    if (data.email == userdata[i].email) {
+      if (data.password == userdata[i].password) {
+        localStorage.setItem("email", userdata[i].email);
+        location.href = "home";
+        k = 1;
+      } else {
+        alert("password wrong");
+      }
     }
+  }
 
-   if(k==1)
-   {
+  if (k == 1) {
     console.log("user found");
-   }
-   else{
+  } else {
     alert("User not registered");
-   }
-}
-
-
-
+  }
+};
 
 //adding user data to the database.
 const addUserData = (data) => {
-    
-    let flag = 0;
-    for(var i=0; i < userdata.length; i++)
-    {
-        if(data.email == userdata[i].email)
-        {
-            alert("User already existe, please login");
-            flag = 1;
-            exit;
-        }
+  let flag = 0;
+  console.log(userdata.length);
+  for (var i = 0; i < userdata.length; i++) {
+    if (data.email == userdata[i].email) {
+      alert("User already existe, please login");
+      flag = 1;
+      exit;
     }
+  }
 
-    if(flag == 0)
-    {
-        $.ajax({
-            url: '/Signup',
-            data: data,
-            type: 'POST',
-            success: (result) => {
-                   
-            alert(result.message);
-            //location.reload();
-            }
-        });
-    }
-    
-}
+  if (flag == 0) {
+    $.ajax({
+      url: "/Signup",
+      data: data,
+      type: "POST",
+      success: (result) => {
+        alert(result.message);
+        //location.reload();
+      },
+    });
+  }
+};
 
-const getlocalvalue = () =>{
-    $.get('/login');
-    console.log(localStorage.getItem('email'))
-    localStorage.clear()
-}
+const addNotesData = (notes) => {
+  $.ajax({
+    url: "/api/notes",
+    type: "POST",
+    data: notes,
+    success: (result) => {
+      alert(result.message);
+    },
+  });
+};
 
-//function myFunction(){
-//  submitForm();
-//getdata();
-//}
+const getlocalvalue = () => {
+  $.get("/login");
+  console.log(localStorage.getItem("email"));
+  localStorage.clear();
+};
 
+$(document).ready(function () {
+  getUserData();
 
-$(document).ready(function(){
-    
+  $(".materialboxed").materialbox();
+  $(".modal").modal();
 
-    getUserData();
+  $("#noteSubmit").click(() => {
+    submitNotesForm();
+  });
 
-    $('.materialboxed').materialbox();
-    //$('.modal').modal();
-    $('#formSubmit').click(()=>{
-        submitUserForm();
-    })
+  $("#signupformSubmit").click(() => {
+    submitUserForm();
+  });
 
-    //For login
-    $('#LoginSubmit').click(()=>{
-        getUserdataid(); 
-    })
+  //For login
+  $("#loginSubmit").click(() => {
+    getUserdataid();
+    getAllUserNotes();
+  });
 
-    $('#check').click(()=>{
-        getlocalvalue();
-    })
-
-  
-
+  $("#check").click(() => {
+    getlocalvalue();
+  });
 });

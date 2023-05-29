@@ -1,7 +1,19 @@
+
+header, main, nav, footer {
+  padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+}
+
 body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  background-color: #ede7f6;
 }
 
 main {
@@ -9,7 +21,7 @@ main {
 }
 
 .note {
-    background: #fff;
+    background: #bbdefb;
     border-radius: 7px;
     box-shadow: 0 2px 5px #ccc;
     padding: 10px;
@@ -21,6 +33,7 @@ main {
 .note h1 {
     font-size: 1.1em;
     margin-bottom: 6px;
+    font-weight: bolder;
 }
 
 .note p {

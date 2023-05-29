@@ -3,16 +3,13 @@ let dbcollection = client.db("notesdb").collection("notes"); //TODO can be bette
 let dbusercollection = client.db("notesdb").collection("User");
 
 function getNotesByUserId(req, callBack) {
-  return dbcollection.find({ title: req }).toArray(callBack);
+  return dbcollection.find({ email: req }).toArray(callBack);
 }
-
 
 //get the particular user data
-function getUserDataById(req,callBack)
-{
-  return dbusercollection.find({email:req}).toArray(callBack);
+function getUserDataById(req, callBack) {
+  return dbusercollection.find({ email: req }).toArray(callBack);
 }
-
 
 function getAllNotes(callBack) {
   //dbcollection.find({ userId: req }).toArray(callBack);
@@ -23,8 +20,8 @@ function addNotes(note, callBack) {
   dbcollection.insertOne(note, callBack);
 }
 
-function addUser(user, callBack){
-  dbusercollection.insertOne(user,callBack);
+function addUser(user, callBack) {
+  dbusercollection.insertOne(user, callBack);
 }
 
 function getAllUser(callBack) {
@@ -57,5 +54,5 @@ module.exports = {
   deleteNotes,
   addUser,
   getAllUser,
-  getUserDataById
+  getUserDataById,
 };

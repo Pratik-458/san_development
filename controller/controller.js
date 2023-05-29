@@ -21,10 +21,9 @@ const getAlluser = (req, res) => {
   });
 };
 
-
 const getNotesByUserId = (req, res) => {
-  let title = req.params.title;
-  model.getNotesByUserId(title, (error, result) => {
+  let email = req.query.email;
+  model.getNotesByUserId(email, (error, result) => {
     if (!error) {
       res.json({ statusCode: 200, data: result, message: "success!" });
     } else {
@@ -35,7 +34,7 @@ const getNotesByUserId = (req, res) => {
 
 //getting user data by id
 const getUserDataById = (req, res) => {
-  let email = req.params.email;
+  let email = req.query.email;
   model.getUserDataById(email, (error, result) => {
     if (!error) {
       res.json({ statusCode: 200, data: result, message: "success!" });

@@ -18,72 +18,85 @@
 
 <body>
   <nav>
-    <div class="nav-wrapper black">
+    <div class="nav-wrapper indigo lighten-3">
       <div class="input-field">
         <input type="search" name="" id="search">
         <label for="search" class="label-icon"> <i class="material-icons">search</i></label>
         <i class="material-icons">close</i>
       </div>
     </div>
-    <div>
-      <ul id="slide-out" class="sidenav">
-        <li>
-          <div class="user-view">
-            <div class="background">
-              <img src="images/user-background.jpg">
-            </div>
-            <a href="#user"><img class="circle" src="images/user-image.png"></a>
-            <a href="#name"><span class="white-text name">John Doe</span></a>
-            <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
-          </div>
-        </li>
-        <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-        <li><a href="#!">Second Link</a></li>
-        <li>
-          <div class="divider"></div>
-        </li>
-        <li><a class="subheader">Subheader</a></li>
-        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
-      </ul>
-      <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-    </div>
   </nav>
 
-  <main class="main-body">
-    <div class="note">
-      <h1>
-        Meeting notes
-      </h1>
-      <p>
-        Discussion on the topic neural networking.
-      </p>
-    </div>
-    <div class="note">
-      <h1>
-        This is title for note
-      </h1>
-      <p>
-        This is a pragraph for the note.
-      </p>
-    </div>
+  <ul id="slide-out" class="sidenav sidenav-fixed deep-purple lighten-5">
+    <li><a href="http://localhost:3000/login"
+        class="waves-effect waves-light btn deep-purple lighten-2 click-me-button modal-trigger" id="signInButton">
+        <i class="material-icons left">vpn_key</i>
+        Sign in
+      </a></li>
+    <li><a href="http://localhost:3000/register"
+        class="waves-effect waves-light btn deep-purple lighten-2 click-me-button modal-trigger" id="registerButton">
+        <i class="material-icons left">touch_app</i>
+        Register
+      </a></li>
+  </ul>
+  <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 
+
+
+  <main class="main-body">
+    <div class="container">
+      <div>
+        <a class="waves-effect waves-light btn deep-purple lighten-2 click-me-button modal-trigger" id="clickMeButton5"
+          data-target="createmodal">
+          <i class="material-icons left">note_add</i>
+          Create note
+        </a>
+      </div>
+      <div class="row" id="card-section">
+      </div>
+
+      <!-- create model -->
+      <div id="createmodal" class="modal modal-fixed-footer">
+        <div class="row modal-content">
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s6">
+                <input place="Placeholder" id="title" type="text" class="validate"></input>
+                <label for="title">Title</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="description" type="text" class="validate">
+                <label for="description">description</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12 center-align">
+                <a class="waves-effect waves-light btn" id="noteSubmit">submit</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </main>
 
-  <footer class="page-footer black">
+  <footer class="page-footer indigo lighten-3">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">About S.A.N</h5>
-          <p class="grey-text text-lighten-4">S.A.N Smart AI-Based Note-Taking Application provides a comprehensive
+          <h5 class="black-text">About S.A.N</h5>
+          <p class="black-text text-lighten-4">S.A.N Smart AI-Based Note-Taking Application provides a comprehensive
             solution to the inefficiencies of traditional note-taking methods.</p>
         </div>
         <div class="col l4 offset-l2 s12">
-          <h5 class="white-text">Links</h5>
+          <h5 class="black-text">Links</h5>
           <ul>
-            <li><a class="grey-text text-lighten-3" href="#!">Support page</a></li>
-            <li><a class="grey-text text-lighten-3" href="#!">FAQ</a></li>
-            <li><a class="grey-text text-lighten-3" href="#!">Contact us</a></li>
-            <li><a class="grey-text text-lighten-3" href="#!">LinkedIn</a></li>
+            <li><a class="black-text text-lighten-3" href="#!">Support page</a></li>
+            <li><a class="black-text text-lighten-3" href="#!">FAQ</a></li>
+            <li><a class="black-text text-lighten-3" href="#!">Contact us</a></li>
+            <li><a class="black-text text-lighten-3" href="#!">LinkedIn</a></li>
           </ul>
         </div>
       </div>
@@ -91,7 +104,7 @@
     <div class="footer-copyright">
       <div class="container">
         © 2023 Copyright S.A.N Dev team
-        <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        <a class="black-text text-lighten-4 right" href="#!">More Links</a>
       </div>
     </div>
   </footer>
