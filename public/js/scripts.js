@@ -30,12 +30,12 @@ const submitUserForm = () => {
 // need to update from local storage
 const submitNotesForm = () => {
   let NoteData = {};
-  NoteData.noteId = "";
-  NoteData.firstName = "tom";
-  NoteData.email = "tom@mail.com";
+  NoteData.noteId = Date.now();
+  NoteData.email = localStorage.getItem("email");
   NoteData.title = $("#title").val();
   NoteData.description = $("#description").val();
   addNotesData(NoteData);
+  location.reload();
 };
 //this gets a array of user data objs
 //TO get all the data
@@ -43,7 +43,6 @@ const getUserData = () => {
   $.get("/api/user", (res) => {
     if (res.statusCode === 200) {
       userdata = res.data;
-      console.log(res.data);
     }
   });
 };
@@ -67,19 +66,16 @@ const getUserdataid = () => {
   data.password = $("#password").val();
   for (var i = 0; i < userdata.length; i++) {
     if (data.email == userdata[i].email) {
+      k = 1;
       if (data.password == userdata[i].password) {
         localStorage.setItem("email", userdata[i].email);
-        location.href = "home";
-        k = 1;
       } else {
         alert("password wrong");
       }
     }
   }
 
-  if (k == 1) {
-    console.log("user found");
-  } else {
+  if (k == 0) {
     alert("User not registered");
   }
 };
@@ -87,7 +83,6 @@ const getUserdataid = () => {
 //adding user data to the database.
 const addUserData = (data) => {
   let flag = 0;
-  console.log(userdata.length);
   for (var i = 0; i < userdata.length; i++) {
     if (data.email == userdata[i].email) {
       alert("User already existe, please login");
@@ -120,6 +115,11 @@ const addNotesData = (notes) => {
   });
 };
 
+const signOutFunction = () => {
+  localStorage.clear();
+  location.reload();
+};
+
 const getlocalvalue = () => {
   $.get("/login");
   console.log(localStorage.getItem("email"));
@@ -128,6 +128,7 @@ const getlocalvalue = () => {
 
 $(document).ready(function () {
   getUserData();
+  getAllUserNotes();
 
   $(".materialboxed").materialbox();
   $(".modal").modal();
@@ -137,17 +138,17 @@ $(document).ready(function () {
   });
 
   $("#signupformSubmit").click(() => {
+    console.log("submit clicked");
     submitUserForm();
+  });
+  $("#logOutButton").click(() => {
+    signOutFunction();
   });
 
   //For login
   $("#loginSubmit").click(() => {
+    console.log("login clicked ");
     getUserdataid();
-    getAllUserNotes();
-  });
-
-  $("#check").click(() => {
-    getlocalvalue();
   });
 });
 

@@ -3,8 +3,7 @@
 1. Install python
 2. Install required libraries
 ```
-pip install SpeechRecognition
-pip install PyAudio
+pip install requirements.txt
 ```
 
 3. Run this file and say something when it indicates in terminal
