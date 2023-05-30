@@ -2,121 +2,83 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Notes</title>
-  <link type="image/png" sizes="32x32" rel="icon" href="images/icons8-done-32.png">
+    <title>Notes</title>
+    <link type="image/png" sizes="32x32" rel="icon" href="images/icons8-done-32.png">
 
-  <!-- Compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <!-- Custom Style Sheet-->
-  <link rel="stylesheet" href="css/styles.css">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Custom Style Sheet-->
+    <link rel="stylesheet" href="css/styles.css">
 
 </head>
 
 <body>
-  <nav>
-    <div class="nav-wrapper indigo lighten-3">
-      <div class="input-field">
-        <input type="search" name="" id="search"
-          placeholder="Enter atleast 3 letters to perform search and hit enter to perform search">
+    <center>
+        <div class="headerWelcomeMessage">
+            <H1>Welcome to S.A.N</H1>
 
-        <label for="search" class="label-icon"> <i class="material-icons">search</i></label>
-        <i class="material-icons">close</i>
-      </div>
-    </div>
-  </nav>
-
-  <ul id="slide-out" class="sidenav sidenav-fixed deep-purple lighten-5">
-    <li><a href="http://localhost:3000/login"
-        class="waves-effect waves-light btn deep-purple lighten-2 click-me-button modal-trigger" id="signInButton">
-        <i class="material-icons left">vpn_key</i>
-        Sign in
-      </a></li>
-    <li><a href="http://localhost:3000/register"
-        class="waves-effect waves-light btn deep-purple lighten-2 click-me-button modal-trigger" id="registerButton">
-        <i class="material-icons left">touch_app</i>
-        Register
-      </a></li>
-  </ul>
-  <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-
-
-
-  <main class="main-body">
-    <div class="container">
-      <div>
-        <a class="waves-effect waves-light btn deep-purple lighten-2 click-me-button modal-trigger" id="clickMeButton5"
-          data-target="createmodal">
-          <i class="material-icons left">note_add</i>
-          Create note
-        </a>
-      </div>
-      <div class="row" id="card-section">
-      </div>
-
-      <!-- create model -->
-      <div id="createmodal" class="modal modal-fixed-footer">
-        <div class="row modal-content">
-          <form class="col s12">
-            <div class="row">
-              <div class="input-field col s6">
-                <input place="Placeholder" id="title" type="text" class="validate"></input>
-                <label for="title">Title</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="description" type="text" class="validate">
-                <label for="description">description</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12 center-align">
-                <a class="waves-effect waves-light btn" id="noteSubmit">submit</a>
-              </div>
-            </div>
-          </form>
         </div>
-      </div>
-    </div>
-  </main>
-
-  <footer class="page-footer indigo lighten-3">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="black-text">About S.A.N</h5>
-          <p class="black-text text-lighten-4">S.A.N Smart AI-Based Note-Taking Application provides a comprehensive
-            solution to the inefficiencies of traditional note-taking methods.</p>
+        <div class="paraWelcomeMessage">
+            <p>Revolutionize your note-taking with S.A.N: The Smart AI-Based <br> Note-Taking
+                App, your key to efficient and
+                effective learning!</p>
         </div>
-        <div class="col l4 offset-l2 s12">
-          <h5 class="black-text">Links</h5>
-          <ul>
-            <li><a class="black-text text-lighten-3" href="#!">Support page</a></li>
-            <li><a class="black-text text-lighten-3" href="#!">FAQ</a></li>
-            <li><a class="black-text text-lighten-3" href="#!">Contact us</a></li>
-            <li><a class="black-text text-lighten-3" href="#!">LinkedIn</a></li>
-          </ul>
+        <div class="loginAndSignupButtons">
+            <a href="http://localhost:3000/login"
+                class="waves-effect waves-light btn-large deep-purple lighten-2 click-me-button modal-trigger"
+                id="signInButton">
+                <i class="material-icons left">vpn_key</i>
+                Sign in
+            </a>
+            <a href="http://localhost:3000/register"
+                class="waves-effect waves-light btn-large deep-purple lighten-2 click-me-button modal-trigger"
+                id="registerButton">
+                <i class="material-icons left">touch_app</i>
+                Register
+            </a>
         </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-        © 2023 Copyright S.A.N Dev team
-        <a class="black-text text-lighten-4 right" href="#!">More Links</a>
-      </div>
-    </div>
-  </footer>
+    </center>
 
-  <!-- Compiled and minified JavaScript -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="js/scripts.js"></script>
+    <main class="main-body">
+
+    </main>
+
+    <footer class="page-footer indigo lighten-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="black-text">About S.A.N</h5>
+                    <p class="black-text text-lighten-4">S.A.N Smart AI-Based Note-Taking Application provides a
+                        comprehensive
+                        solution to the inefficiencies of traditional note-taking methods.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="black-text">Links</h5>
+                    <ul>
+                        <li><a class="black-text text-lighten-3" href="#!">Support page</a></li>
+                        <li><a class="black-text text-lighten-3" href="#!">FAQ</a></li>
+                        <li><a class="black-text text-lighten-3" href="#!">Contact us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2023 Copyright S.A.N Dev team
+                <a class="black-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="js/scripts.js"></script>
 </body>
 
 </html>

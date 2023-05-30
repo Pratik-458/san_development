@@ -34,15 +34,15 @@ router.post("/login", function (req, res) {
 });
 
 router.get("/login", function (req, res) {
-  return res.sendFile(path.join(__dirname, "../pages/login.html"));
+  return res.sendFile(path.join(__dirname, "../public/login.html"));
 });
 
 router.get("/home", (req, res) => {
-  return res.sendFile(path.join(__dirname, "../public/index.html"));
+  return res.sendFile(path.join(__dirname, "../public/home.html"));
 });
 
 router.get("/register", function (req, res) {
-  return res.sendFile(path.join(__dirname, "../pages/Signup.html"));
+  return res.sendFile(path.join(__dirname, "../public/Signup.html"));
 });
 
 //Adding user to the database
