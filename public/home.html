@@ -64,11 +64,16 @@
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input id="description" type="text" class="validate">
+                <input id="description" type="text" class="validate" placeholder="Enter Text">
                 <label for="description">description</label>
+                <p id="status" class="lead mt-3" style="display: none">Listening...</p>
+                <span id="final"></span>
               </div>
             </div>
             <div class="row">
+              <div class="input-field col s12 center-align">
+                <a class="waves-effect waves-light btn" id="start">Speech to Text</a>
+              </div>
               <div class="input-field col s12 center-align">
                 <a class="waves-effect waves-light btn" id="noteSubmit">submit</a>
               </div>
