@@ -5,7 +5,7 @@ let mongoClient = new MongoClient(uri, { useNewUrlParser: true });
 
 mongoClient.connect((error) => {
   if (!error) {
-    console.log("sucess");
+    console.log("success");
   } else {
     console.log(error);
     process.exit(1);
