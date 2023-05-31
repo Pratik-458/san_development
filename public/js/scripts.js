@@ -1,3 +1,5 @@
+import { speechData } from './speechRecognition.js';
+
 const clickMe = () => {
   console.log("clickMe clicked");
 };
@@ -9,13 +11,12 @@ const addCards = (items) => {
       item.title +
       "</h1><p>" +
       item.description +
-      '</p><div class="col s12 center-align"><a class="waves-effect waves-light btn-small click-me-button modal-trigger deep-purple lighten-2" id="clickMeButton" data-target="modal2"><i class="material-icons left">mode_edit</i>Edit</a></div></div>';
+      '</p><div class="col s12 center-align"><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="clickMeButton" data-target="modal2"><i class="material-icons left">mode_edit</i>Edit</a></div></div>';
     $("#card-section").append(itemToAppend);
   });
 };
 
 var userdata = [];
-var speechData;
 
 //getting user data from html
 const submitUserForm = () => {
@@ -38,6 +39,7 @@ const submitNotesForm = () => {
   addNotesData(NoteData);
   location.reload();
 };
+
 //TO get all the data
 const getUserData = () => {
   $.get("/api/user", (res) => {
@@ -125,57 +127,6 @@ const getlocalvalue = () => {
   console.log(localStorage.getItem("email"));
   localStorage.clear();
 };
-
-if ("webkitSpeechRecognition" in window) {
-  // Initialize webkitSpeechRecognition
-  let speechRecognition = new webkitSpeechRecognition();
-
-  // String for the Final Transcript
-  let final_transcript = "";
-
-  // Set the properties for the Speech Recognition object
-  speechRecognition.continuous = false;
-  speechRecognition.lang = "en-AU";
-
-  // Callback Function for the onStart Event
-  speechRecognition.onstart = () => {
-      // Show the Status Element
-      document.querySelector("#status").style.display = "block";
-  };
-  speechRecognition.onerror = () => {
-      // Hide the Status Element
-      document.querySelector("#status").style.display = "none";
-  };
-  speechRecognition.onend = () => {
-      // Hide the Status Element
-      document.querySelector("#status").style.display = "none";
-  };
-
-  speechRecognition.onresult = (event) => {
-      // Create the interim transcript string locally because we don't want it to persist like final transcript
-      let interim_transcript = "";
-
-      // Loop through the results from the speech recognition object.
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
-          // If the result item is Final, add it to Final Transcript, Else add it to Interim transcript
-          if (event.results[i].isFinal) {
-              final_transcript += event.results[i][0].transcript;
-          } else {
-              interim_transcript += event.results[i][0].transcript;
-          }
-      }
-
-      // Set the Final transcript and Interim transcript.
-      document.querySelector("#final").innerHTML = final_transcript;
-      speechData = final_transcript;
-      document.getElementById("#description").innerHTML = final_transcript
-  };
-  document.querySelector("#start").onclick = () => {
-      speechRecognition.start();
-  };
-} else {
-  console.log("Speech Recognition Not Available");
-}
 
 $(document).ready(function () {
   getUserData();
