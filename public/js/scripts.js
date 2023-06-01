@@ -135,6 +135,8 @@ const genSummary = () => {
   for (var i = 0; i < userNotes.length; i++) {
     if (userNotes[i].title == noteData.title) {
       noteID = userNotes[i].noteId;
+      noteData.description = userNotes[i].description;
+      break;
     }
   }
   noteData.noteId = noteID;
