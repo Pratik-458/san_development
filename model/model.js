@@ -30,20 +30,19 @@ function getAllUser(callBack) {
 }
 
 async function updateNotes(note, userId, noteId, callBack) {
-  const options = { upsert: true };
-  var query = { userId: userId, noteId: noteId };
-  await dbcollection.updateOne(
+  const options = { upsert: false };
+  var query = { email: userId, noteId: noteId };
+  await dbcollection.replaceOne(
     query,
-    {
-      $set: note,
-      callBack,
-    },
-    options
+    note,
+    options,
+    callBack
   );
 }
 
 const deleteNotes = (note, callback) => {
-  dbcollection.deleteOne(note, callback);
+  var query = { email: note.email, noteId: note.noteId };
+  dbcollection.deleteOne(query, callback);
 };
 
 module.exports = {
