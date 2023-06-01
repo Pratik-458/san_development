@@ -38,7 +38,7 @@ router.post("/api/notes", (req, res) => {
   addNotesC(req, res);
 });
 
-router.post("/api/summary", (req, res) => {
+router.put("/api/summary", (req, res) => {
   summarizeNotesC(req, res);
 });
 
