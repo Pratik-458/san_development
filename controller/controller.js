@@ -1,7 +1,17 @@
-let model = require("../model/model");
+import {
+  getNotesByUserId,
+  getAllNotes,
+  addNotes,
+  updateNotes,
+  deleteNotes,
+  addUser,
+  getAllUser,
+  getUserDataById,
+  summarizeNotes,
+} from "../model/model.js";
 
-const getAllNotes = (req, res) => {
-  model.getAllNotes((error, result) => {
+const getAllNotesC = (req, res) => {
+  getAllNotes((error, result) => {
     if (!error) {
       res.json({ statusCode: 200, data: result, message: "success!" });
     } else {
@@ -11,8 +21,8 @@ const getAllNotes = (req, res) => {
 };
 
 // Getting all the user data.
-const getAlluser = (req, res) => {
-  model.getAllUser((error, result) => {
+const getAlluserC = (req, res) => {
+  getAllUser((error, result) => {
     if (!error) {
       res.json({ statusCode: 200, data: result, message: "success!" });
     } else {
@@ -21,9 +31,9 @@ const getAlluser = (req, res) => {
   });
 };
 
-const getNotesByUserId = (req, res) => {
+const getNotesByUserIdC = (req, res) => {
   let email = req.query.email;
-  model.getNotesByUserId(email, (error, result) => {
+  getNotesByUserId(email, (error, result) => {
     if (!error) {
       res.json({ statusCode: 200, data: result, message: "success!" });
     } else {
@@ -33,9 +43,9 @@ const getNotesByUserId = (req, res) => {
 };
 
 //getting user data by id
-const getUserDataById = (req, res) => {
+const getUserDataByIdC = (req, res) => {
   let email = req.query.email;
-  model.getUserDataById(email, (error, result) => {
+  getUserDataById(email, (error, result) => {
     if (!error) {
       res.json({ statusCode: 200, data: result, message: "success!" });
     } else {
@@ -44,7 +54,7 @@ const getUserDataById = (req, res) => {
   });
 };
 
-const addNotes = (req, res) => {
+const addNotesC = (req, res) => {
   let note = req.body;
   if (Object.keys(req.body).length === 0) {
     res.status(400);
@@ -54,7 +64,7 @@ const addNotes = (req, res) => {
       message: "Missing request body.",
     });
   } else {
-    model.addNotes(note, (error, result) => {
+    addNotes(note, (error, result) => {
       if (!error) {
         res.json({ statusCode: 200, data: result, message: "Added" });
       } else {
@@ -66,7 +76,7 @@ const addNotes = (req, res) => {
 };
 
 //Adding user to database
-const addUser = (req, res) => {
+const addUserC = (req, res) => {
   let note = req.body;
   if (Object.keys(req.body).length === 0) {
     res.status(400);
@@ -76,7 +86,7 @@ const addUser = (req, res) => {
       message: "Missing request body.",
     });
   } else {
-    model.addUser(note, (error, result) => {
+    addUser(note, (error, result) => {
       if (!error) {
         res.json({ statusCode: 200, data: result, message: "User Added" });
       } else {
@@ -87,7 +97,32 @@ const addUser = (req, res) => {
   }
 };
 
-const updateNotes = async (req, res) => {
+const summarizeNotesC = (req, res) => {
+  let note = req.body;
+  if (Object.keys(req.body).length === 0) {
+    res.status(400);
+    res.json({
+      statusCode: 400,
+      data: {},
+      message: "Missing request body.",
+    });
+  } else {
+    summarizeNotes(note, (error, result) => {
+      if (!error) {
+        res.json({
+          statusCode: 200,
+          data: result,
+          message: "notes summarised",
+        });
+      } else {
+        console.log(error);
+        res.json({ statusCode: 400, data: error, message: "Failed" });
+      }
+    });
+  }
+};
+
+const updateNotesC = async (req, res) => {
   let note = req.body;
   let userId = req.params.userId;
   let noteId = req.params.noteId;
@@ -99,7 +134,7 @@ const updateNotes = async (req, res) => {
       message: "Missing request body.",
     });
   } else {
-    await model.updateNotes(note, userId, noteId, (error, result) => {
+    await updateNotes(note, userId, noteId, (error, result) => {
       if (!error) {
         res.json({ statusCode: 200, data: result, message: "Updated" });
       } else {
@@ -109,9 +144,9 @@ const updateNotes = async (req, res) => {
     });
   }
 };
-const deleteNotes = (req, res) => {
+const deleteNotesC = (req, res) => {
   let requestBody = req.body;
-  model.deleteNotes(requestBody, (error, result) => {
+  deleteNotes(requestBody, (error, result) => {
     if (error) {
       res.json({ statusCode: 400, message: error });
     } else {
@@ -123,10 +158,10 @@ const deleteNotes = (req, res) => {
     }
   });
 };
-const performSearch = (req, res) => {
+const performSearchC = (req, res) => {
   let queryString = req.query.query;
   let resData = [];
-  model.getAllNotes((error, result) => {
+  getAllNotes((error, result) => {
     if (!error) {
       queryString = queryString.replace(/[^a-zA-Z ]/g, "").toLowerCase();
       result.forEach((notes) => {
@@ -146,14 +181,16 @@ const performSearch = (req, res) => {
     }
   });
 };
-module.exports = {
-  getAllNotes,
-  getNotesByUserId,
-  addNotes,
-  updateNotes,
-  deleteNotes,
-  addUser,
-  getAlluser,
-  getUserDataById,
-  performSearch,
+
+export {
+  getAllNotesC,
+  getNotesByUserIdC,
+  addNotesC,
+  updateNotesC,
+  deleteNotesC,
+  addUserC,
+  getAlluserC,
+  getUserDataByIdC,
+  performSearchC,
+  summarizeNotesC,
 };

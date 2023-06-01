@@ -1,6 +1,7 @@
-let client = require("../dbconnection");
-let dbcollection = client.db("notesdb").collection("notes"); //TODO can be better
-let dbusercollection = client.db("notesdb").collection("User");
+import mongoClient from "../dbconnection.js";
+let dbcollection = mongoClient.db("notesdb").collection("notes"); //TODO can be better
+let dbusercollection = mongoClient.db("notesdb").collection("User");
+import SummaryTool from "node-summary";
 
 function getNotesByUserId(req, callBack) {
   return dbcollection.find({ email: req }).toArray(callBack);
@@ -22,6 +23,44 @@ function addNotes(note, callBack) {
 
 function addUser(user, callBack) {
   dbusercollection.insertOne(user, callBack);
+}
+
+function summarizeNotes(note, callBack) {
+  const options = { upsert: true };
+  var query = { userId: note.userId, noteId: note.noteId };
+  var obj = {
+    noteId: note.noteId,
+    email: note.email,
+    title: note.title,
+    description: note.description,
+    summary: "",
+  };
+  var title = note.title;
+  // "Swayy is a beautiful new dashboard for discovering and curating online content [Invites]";
+  var content = note.description;
+
+  SummaryTool.summarize(title, content, function (err, summary) {
+    if (err) console.log("Something went wrong man!");
+    // obj.summary = summary;
+
+    console.log(summary);
+
+    console.log("Original Length " + (title.length + content.length));
+    console.log("Summary Length " + summary.length);
+    console.log(
+      "Summary Ratio: " +
+        (100 - 100 * (summary.length / (title.length + content.length)))
+    );
+  });
+
+  dbcollection.updateOne(
+    query,
+    {
+      $set: obj,
+      callBack,
+    },
+    options
+  );
 }
 
 function getAllUser(callBack) {
@@ -46,7 +85,7 @@ const deleteNotes = (note, callback) => {
   dbcollection.deleteOne(note, callback);
 };
 
-module.exports = {
+export {
   getNotesByUserId,
   getAllNotes,
   addNotes,
@@ -55,4 +94,5 @@ module.exports = {
   addUser,
   getAllUser,
   getUserDataById,
+  summarizeNotes,
 };

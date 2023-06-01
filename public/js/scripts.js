@@ -1,4 +1,4 @@
-import { speechData } from './speechRecognition.js';
+import { speechData } from "./speechRecognition.js";
 
 const clickMe = () => {
   console.log("clickMe clicked");
@@ -11,7 +11,7 @@ const addCards = (items) => {
       item.title +
       "</h1><p>" +
       item.description +
-      '</p><div class="col s12 center-align"><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="clickMeButton" data-target="modal2"><i class="material-icons left">mode_edit</i>Edit</a></div></div>';
+      '</p><div class="col s12 center-align"><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="updateNotesButton" data-target="modal2"><i class="material-icons center">mode_edit</i></a><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="deleteNotesButton"><i class="material-icons center">delete_forever</i></a><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="generateSummaryButton"><i class="material-icons center">format_quote</i></a></div></div>';
     $("#card-section").append(itemToAppend);
   });
 };
@@ -25,7 +25,6 @@ const submitUserForm = () => {
   formData.lastName = $("#Lastname").val();
   formData.email = $("#email").val();
   formData.password = $("#password").val();
-  emailUser = $("#email").val();
   addUserData(formData);
 };
 
@@ -35,7 +34,8 @@ const submitNotesForm = () => {
   NoteData.noteId = Date.now();
   NoteData.email = localStorage.getItem("email");
   NoteData.title = $("#title").val();
-  NoteData.description = $("#description").val() === '' ? speechData : $("#description").val();
+  NoteData.description =
+    $("#description").val() === "" ? speechData : $("#description").val();
   addNotesData(NoteData);
   location.reload();
 };
@@ -117,6 +117,17 @@ const addNotesData = (notes) => {
   });
 };
 
+const generateSummary = (note) => {
+  $.ajax({
+    url: "/api/summary",
+    type: "POST",
+    data: note,
+    success: (result) => {
+      alert(result.message);
+    },
+  });
+};
+
 const signOutFunction = () => {
   localStorage.clear();
   location.reload();
@@ -151,6 +162,9 @@ $(document).ready(function () {
   $("#loginSubmit").click(() => {
     console.log("login clicked ");
     getUserdataid();
+  });
+  $("#generateSummaryButton").click(() => {
+    generateSummary();
   });
 });
 
