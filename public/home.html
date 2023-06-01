@@ -18,7 +18,7 @@
 
 <body>
   <nav>
-    <div class="nav-wrapper indigo lighten-3">
+    <div class="nav-wrapper blue lighten-4">
       <div class="input-field">
         <input type="search" name="" id="search"
           placeholder="Enter atleast 3 letters to perform search and hit enter to perform search">
@@ -29,9 +29,9 @@
     </div>
   </nav>
 
-  <ul id="slide-out" class="sidenav sidenav-fixed deep-purple lighten-5">
+  <ul id="slide-out" class="sidenav sidenav-fixed blue lighten-4">
     <li><a href="http://localhost:3000/login"
-        class="waves-effect waves-light btn-large deep-purple lighten-2 click-me-button modal-trigger"
+        class="waves-effect waves-light btn-large blue darken-4 click-me-button modal-trigger"
         id="logOutButton">
         <i class="material-icons left">vpn_key</i>
         Log out
@@ -43,15 +43,15 @@
   <main class="main-body">
     <div class="container">
       <div>
-        <a class="waves-effect waves-light btn deep-purple lighten-2 click-me-button modal-trigger" id="clickMeButton5"
+        <a class="waves-effect waves-light btn blue darken-4 click-me-button modal-trigger" id="clickMeButton5"
           data-target="createmodal">
           <i class="material-icons left">note_add</i>
           Create note
         </a>
       </div>
+
       <div class="row" id="card-section">
       </div>
-
       <!-- create model -->
       <div id="createmodal" class="modal modal-fixed-footer">
         <div class="row modal-content">
@@ -63,9 +63,14 @@
               </div>
             </div>
             <div class="row">
-              <div class="input-field col s12">
-                <input id="description" type="text" class="validate">
+              <div class="input-field col s10">
+                <input id="description" type="text" class="validate" placeholder="Enter Text">
                 <label for="description">description</label>
+                <p id="status" class="lead mt-3" style="display: none">Listening...</p>
+                <span id="final"></span>
+              </div>
+              <div class="input-field col s2">
+                <a class="waves-effect waves-light btn" id="start"><i class="material-icons center-align">mic</i></a>
               </div>
             </div>
             <div class="row">
@@ -79,7 +84,7 @@
     </div>
   </main>
 
-  <footer class="page-footer indigo lighten-3">
+  <footer class="page-footer blue accent-1 lighten-3">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
@@ -109,7 +114,9 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="js/scripts.js"></script>
+  <script type="module" src="js/scripts.js"></script>
+<script type="module" src="./js/speechRecognition.js"></script>
+
 </body>
 
 </html>

@@ -1,3 +1,5 @@
+import { speechData } from './speechRecognition.js';
+
 const clickMe = () => {
   console.log("clickMe clicked");
 };
@@ -9,7 +11,7 @@ const addCards = (items) => {
       item.title +
       "</h1><p>" +
       item.description +
-      '</p><div class="col s12 center-align"><a class="waves-effect waves-light btn-small click-me-button modal-trigger deep-purple lighten-2" id="clickMeButton" data-target="modal2"><i class="material-icons left">mode_edit</i>Edit</a></div></div>';
+      '</p><div class="col s12 center-align"><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="clickMeButton" data-target="modal2"><i class="material-icons left">mode_edit</i>Edit</a></div></div>';
     $("#card-section").append(itemToAppend);
   });
 };
@@ -40,30 +42,28 @@ const submitNotesForm = () => {
   NoteData.noteId = Date.now();
   NoteData.email = localStorage.getItem("email");
   NoteData.title = $("#title").val();
-  NoteData.description = $("#description").val();
+  NoteData.description = $("#description").val() === '' ? speechData : $("#description").val();
   addNotesData(NoteData);
   location.reload();
 };
-//Search function
-// const getsearchfunction = () => {
-//   let data = $("#search").val
-//   $.ajax({
-//     url: "/notes/search",
-//     data: data,
-//     type: "GET",
-//     success: (result) => {
-//       let ddata = result;
-//       alert(result.message);
-//       console.log(ddata)
-//       //location.reload();
-//     },
-//   });
-// };
+
+// Search function
+const getsearchfunction = () => {
+  let data = $("#search").val
+  $.ajax({
+    url: "/notes/search",
+    data: data,
+    type: "GET",
+    success: (result) => {
+      let ddata = result;
+      alert(result.message);
+      console.log(ddata)
+      //location.reload();
+    },
+  });
+};
 
 
-
-
-//this gets a array of user data objs
 //TO get all the data
 const getUserData = () => {
   $.get("/api/user", (res) => {
