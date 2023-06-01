@@ -41,7 +41,7 @@ function summarizeNotes(note, callBack) {
 
   SummaryTool.summarize(title, content, function (err, summary) {
     if (err) console.log("Something went wrong man!");
-    // obj.summary = summary;
+    obj.summary = summary;
 
     console.log(summary);
 
@@ -53,14 +53,7 @@ function summarizeNotes(note, callBack) {
     );
   });
 
-  dbcollection.updateOne(
-    query,
-    {
-      $set: obj,
-      callBack,
-    },
-    options
-  );
+  dbcollection.replaceOne(query, obj, options, callBack);
 }
 
 function getAllUser(callBack) {
@@ -75,9 +68,9 @@ async function updateNotes(note, userId, noteId, callBack) {
     query,
     {
       $set: note,
-      callBack,
     },
-    options
+    options,
+    callBack
   );
 }
 
