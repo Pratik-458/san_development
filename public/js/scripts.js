@@ -1,8 +1,7 @@
 import { speechData } from "./speechRecognition.js";
 
-const clickMe = () => {
-  console.log("clickMe clicked");
-};
+var userdata = [];
+var userNotes = {};
 
 const addCards = (items) => {
   items.forEach((item) => {
@@ -11,13 +10,10 @@ const addCards = (items) => {
       item.title +
       "</h1><p>" +
       item.description +
-      '</p><div class="col s12 center-align"><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="updateButton" data-target="updateNotesButton"><i class="material-icons center">mode_edit</i></a><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="deleteButton" data-target="deleteNotesButton"><i class="material-icons center">delete_forever</i></a><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="generateSummaryButton"><i class="material-icons center">format_quote</i></a></div></div>';
+      '</p><div class="col s12 center-align"><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="updateButton" data-target="updateNotesButton"><i class="material-icons center">mode_edit</i></a><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="deleteButton" data-target="deleteNotesButton"><i class="material-icons center">delete_forever</i></a><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="generateSummaryButton" data-target="summaryNotesButton"><i class="material-icons center">format_quote</i></a></div></div>';
     $("#card-section").append(itemToAppend);
   });
 };
-
-var userdata = [];
-var userNotes = {};
 
 //getting user data from html
 const submitUserForm = () => {
@@ -26,7 +22,6 @@ const submitUserForm = () => {
   formData.lastName = $("#Lastname").val();
   formData.email = $("#email").val();
   formData.password = $("#password").val();
-  //emailUser = $("#email").val();
 
   if (formData.email != "" && formData.password != "") {
     addUserData(formData);
@@ -38,50 +33,113 @@ const submitUserForm = () => {
 
 // need to update from local storage
 const submitNotesForm = () => {
-  let NoteData = {};
-  NoteData.noteId = Date.now();
-  NoteData.email = localStorage.getItem("email");
-  NoteData.title = $("#title").val();
-  NoteData.description =
+  let noteData = {};
+  noteData.noteId = Date.now();
+  noteData.email = localStorage.getItem("email");
+  noteData.title = $("#title").val();
+  noteData.description =
     $("#description").val() === "" ? speechData : $("#description").val();
-  addNotesData(NoteData);
+  addNotesData(noteData);
   location.reload();
 };
-const updateNotesForm = () => {
-  let NoteData = {};
-  let noteID;
-  NoteData.title = $("#title2").val();
 
+const updateNotesForm = () => {
+  let noteData = {};
+  let noteID;
+  noteData.title = $("#title2").val();
   for (var i = 0; i < userNotes.length; i++) {
-    if (userNotes[i].title == NoteData.title) {
+    if (userNotes[i].title == noteData.title) {
       noteID = userNotes[i].noteId;
     }
   }
-
-  NoteData.noteId = noteID;
-  NoteData.email = localStorage.getItem("email");
-  NoteData.description = $("#description2").val();
-
-  updateNotes(NoteData);
+  noteData.noteId = noteID;
+  noteData.email = localStorage.getItem("email");
+  noteData.description = $("#description2").val();
+  updateNotes(noteData);
   location.reload();
 };
 
 const deleteNoteTrigger = () => {
-  let NoteData = {};
+  let noteData = {};
   let noteID;
-  NoteData.title = $("#title3").val();
-
+  noteData.title = $("#title3").val();
   for (var i = 0; i < userNotes.length; i++) {
-    if (userNotes[i].title == NoteData.title) {
+    if (userNotes[i].title == noteData.title) {
       noteID = userNotes[i].noteId;
     }
   }
+  noteData.noteId = noteID;
+  noteData.email = localStorage.getItem("email");
+  deleteNotes(noteData);
+  location.reload();
+};
 
-  NoteData.noteId = noteID;
-  NoteData.email = localStorage.getItem("email");
-  NoteData.description = $("#description3").val();
+//getting partiular data id
+const getUserdataid = () => {
+  let k = 0;
+  let data = {};
+  data.email = $("#email").val();
+  data.password = $("#password").val();
+  if (data.email != "" && data.password != "") {
+    for (var i = 0; i < userdata.length; i++) {
+      if (data.email == userdata[i].email) {
+        k = 1;
+        if (data.password == userdata[i].password) {
+          localStorage.setItem("email", userdata[i].email);
+          location.href = "/home";
+        } else {
+          window.alert("password wrong");
+        }
+      }
+    }
+    if (k == 0) {
+      alert("User not registered");
+    }
+  } else {
+    alert("Please, fill all values");
+  }
+};
 
-  deleteNotes(NoteData);
+const signOutFunction = () => {
+  localStorage.clear();
+  location.reload();
+};
+
+//adding user data to the database.
+const addUserData = (data) => {
+  let flag = 0;
+  for (var i = 0; i < userdata.length; i++) {
+    if (data.email == userdata[i].email) {
+      alert("User already exists, please login");
+      flag = 1;
+      exit;
+    }
+  }
+  if (flag == 0) {
+    $.ajax({
+      url: "/Signup",
+      data: data,
+      type: "POST",
+      success: (result) => {
+        alert(result.message);
+        //location.reload();
+      },
+    });
+  }
+};
+
+const genSummary = () => {
+  let noteData = {};
+  let noteID;
+  noteData.title = $("#title4").val();
+  for (var i = 0; i < userNotes.length; i++) {
+    if (userNotes[i].title == noteData.title) {
+      noteID = userNotes[i].noteId;
+    }
+  }
+  noteData.noteId = noteID;
+  noteData.email = localStorage.getItem("email");
+  generateSummary(noteData);
   location.reload();
 };
 
@@ -132,6 +190,7 @@ const updateNotes = (notes) => {
     },
   });
 };
+
 const deleteNotes = (notes) => {
   $.ajax({
     url: "/api/notes",
@@ -141,58 +200,6 @@ const deleteNotes = (notes) => {
       alert(result.message);
     },
   });
-};
-
-//getting partiular data id
-const getUserdataid = () => {
-  let k = 0;
-  let data = {};
-  data.email = $("#email").val();
-  data.password = $("#password").val();
-
-  if (data.email != "" && data.password != "") {
-    for (var i = 0; i < userdata.length; i++) {
-      if (data.email == userdata[i].email) {
-        k = 1;
-        if (data.password == userdata[i].password) {
-          localStorage.setItem("email", userdata[i].email);
-          location.href = "/home";
-        } else {
-          window.alert("password wrong");
-        }
-      }
-    }
-
-    if (k == 0) {
-      alert("User not registered");
-    }
-  } else {
-    alert("Please, fill all values");
-  }
-};
-
-//adding user data to the database.
-const addUserData = (data) => {
-  let flag = 0;
-  for (var i = 0; i < userdata.length; i++) {
-    if (data.email == userdata[i].email) {
-      alert("User already exists, please login");
-      flag = 1;
-      exit;
-    }
-  }
-
-  if (flag == 0) {
-    $.ajax({
-      url: "/Signup",
-      data: data,
-      type: "POST",
-      success: (result) => {
-        alert(result.message);
-        //location.reload();
-      },
-    });
-  }
 };
 
 const addNotesData = (notes) => {
@@ -209,17 +216,12 @@ const addNotesData = (notes) => {
 const generateSummary = (note) => {
   $.ajax({
     url: "/api/summary",
-    type: "POST",
+    type: "PUT",
     data: note,
     success: (result) => {
       alert(result.message);
     },
   });
-};
-
-const signOutFunction = () => {
-  localStorage.clear();
-  location.reload();
 };
 
 const getlocalvalue = () => {
@@ -260,8 +262,8 @@ $(document).ready(function () {
     console.log("login clicked ");
     getUserdataid();
   });
-  $("#generateSummaryButton").click(() => {
-    generateSummary();
+  $("#summaryId").click(() => {
+    genSummary();
   });
 });
 

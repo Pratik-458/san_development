@@ -43,7 +43,7 @@ router.put("/api/summary", (req, res) => {
 });
 
 router.put("/api/notes", async (req, res) => {
-  controller.updateNotes(req, res);
+  updateNotesC(req, res);
 });
 
 router.delete("/api/notes/", (req, res) => {

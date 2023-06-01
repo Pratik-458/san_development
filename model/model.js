@@ -33,14 +33,13 @@ function summarizeNotes(note, callBack) {
     email: note.email,
     title: note.title,
     description: note.description,
-    summary: "",
   };
   var title = note.title;
   var content = note.description;
 
   SummaryTool.summarize(title, content, function (err, summary) {
     if (err) console.log("Something went wrong man!");
-    obj.summary = summary;
+    obj.description = summary;
 
     console.log(summary);
 
