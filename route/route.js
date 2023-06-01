@@ -21,7 +21,7 @@ router.post("/api/notes", (req, res) => {
   controller.addNotes(req, res);
 });
 
-router.put("/api/notes/:userid/:noteid", async (req, res) => {
+router.put("/api/notes", async (req, res) => {
   controller.updateNotes(req, res);
 });
 

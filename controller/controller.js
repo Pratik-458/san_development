@@ -89,8 +89,8 @@ const addUser = (req, res) => {
 
 const updateNotes = async (req, res) => {
   let note = req.body;
-  let userId = req.params.userId;
-  let noteId = req.params.noteId;
+  let userId = req.body.email;
+  let noteId = req.body.noteId;
   if (Object.keys(req.body).length === 0) {
     res.status(400);
     res.json({
