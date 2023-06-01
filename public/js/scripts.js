@@ -24,7 +24,14 @@ const submitUserForm = () => {
   formData.email = $("#email").val();
   formData.password = $("#password").val();
   emailUser = $("#email").val();
+
+  if(formData.email != "" && formData.password != ""){
   addUserData(formData);
+  location.href = "/login"
+  }
+  else{
+    alert("Please, fill all values");
+  }
 };
 
 // need to update from local storage
@@ -37,6 +44,25 @@ const submitNotesForm = () => {
   addNotesData(NoteData);
   location.reload();
 };
+//Search function
+// const getsearchfunction = () => {
+//   let data = $("#search").val
+//   $.ajax({
+//     url: "/notes/search",
+//     data: data,
+//     type: "GET",
+//     success: (result) => {
+//       let ddata = result;
+//       alert(result.message);
+//       console.log(ddata)
+//       //location.reload();
+//     },
+//   });
+// };
+
+
+
+
 //this gets a array of user data objs
 //TO get all the data
 const getUserData = () => {
@@ -64,13 +90,16 @@ const getUserdataid = () => {
   let data = {};
   data.email = $("#email").val();
   data.password = $("#password").val();
+
+  if(data.email != "" && data.password != ""){
   for (var i = 0; i < userdata.length; i++) {
     if (data.email == userdata[i].email) {
       k = 1;
       if (data.password == userdata[i].password) {
         localStorage.setItem("email", userdata[i].email);
+        location.href = "/home"
       } else {
-        alert("password wrong");
+        window.alert("password wrong");
       }
     }
   }
@@ -78,6 +107,10 @@ const getUserdataid = () => {
   if (k == 0) {
     alert("User not registered");
   }
+}
+else{
+  alert("Please, fill all values");
+}
 };
 
 //adding user data to the database.
@@ -147,10 +180,13 @@ $(document).ready(function () {
 
   //For login
   $("#loginSubmit").click(() => {
+
     console.log("login clicked ");
     getUserdataid();
   });
 });
+
+
 
 const displayNotes = function (notes) {
   $("#notesBody").empty();
