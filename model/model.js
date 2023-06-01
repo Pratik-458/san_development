@@ -36,7 +36,6 @@ function summarizeNotes(note, callBack) {
     summary: "",
   };
   var title = note.title;
-  // "Swayy is a beautiful new dashboard for discovering and curating online content [Invites]";
   var content = note.description;
 
   SummaryTool.summarize(title, content, function (err, summary) {
