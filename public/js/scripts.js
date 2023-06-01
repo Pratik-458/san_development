@@ -25,7 +25,7 @@ const submitUserForm = () => {
   formData.lastName = $("#Lastname").val();
   formData.email = $("#email").val();
   formData.password = $("#password").val();
-  emailUser = $("#email").val();
+  //emailUser = $("#email").val();
 
   if(formData.email != "" && formData.password != ""){
   addUserData(formData);
