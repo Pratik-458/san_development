@@ -1,13 +1,21 @@
-var express = require("express");
-var app = express();
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import dbconnection from "./dbconnection.js";
+import router from "./route/route.js";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+var app = express();
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-require("./dbconnection");
-let router = require("./route/route");
-let http = require("http").createServer(app);
-let io = require("socket.io")(http);
+
+const http = createServer(app);
+const io = new Server(http);
 
 io.on("connection", (socket) => {
   console.log("a client is connected");
