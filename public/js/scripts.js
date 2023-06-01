@@ -1,3 +1,4 @@
+import { speechData } from './speechRecognition.js';
 
 const clickMe = () => {
   console.log("clickMe clicked");
@@ -24,8 +25,15 @@ const submitUserForm = () => {
   formData.lastName = $("#Lastname").val();
   formData.email = $("#email").val();
   formData.password = $("#password").val();
-  emailUser = $("#email").val();
+  //emailUser = $("#email").val();
+
+  if(formData.email != "" && formData.password != ""){
   addUserData(formData);
+  location.href = "/login"
+  }
+  else{
+    alert("Please, fill all values");
+  }
 };
 
 // need to update from local storage
@@ -34,7 +42,7 @@ const submitNotesForm = () => {
   NoteData.noteId = Date.now();
   NoteData.email = localStorage.getItem("email");
   NoteData.title = $("#title").val();
-  NoteData.description = $("#description").val();
+  NoteData.description = $("#description").val() === '' ? speechData : $("#description").val();
   addNotesData(NoteData);
   location.reload();
 };
@@ -86,7 +94,24 @@ const deleteNoteTrigger = () => {
 
 };
 
-//this gets a array of user data objs
+
+// Search function
+const getsearchfunction = () => {
+  let data = $("#search").val
+  $.ajax({
+    url: "/notes/search",
+    data: data,
+    type: "GET",
+    success: (result) => {
+      let ddata = result;
+      alert(result.message);
+      console.log(ddata)
+      //location.reload();
+    },
+  });
+};
+
+
 //TO get all the data
 const getUserData = () => {
   $.get("/api/user", (res) => {
@@ -135,13 +160,16 @@ const getUserdataid = () => {
   let data = {};
   data.email = $("#email").val();
   data.password = $("#password").val();
+
+  if(data.email != "" && data.password != ""){
   for (var i = 0; i < userdata.length; i++) {
     if (data.email == userdata[i].email) {
       k = 1;
       if (data.password == userdata[i].password) {
         localStorage.setItem("email", userdata[i].email);
+        location.href = "/home"
       } else {
-        alert("password wrong");
+        window.alert("password wrong");
       }
     }
   }
@@ -149,6 +177,10 @@ const getUserdataid = () => {
   if (k == 0) {
     alert("User not registered");
   }
+}
+else{
+  alert("Please, fill all values");
+}
 };
 
 //adding user data to the database.
@@ -227,6 +259,7 @@ $(document).ready(function () {
 
   //For login
   $("#loginSubmit").click(() => {
+
     console.log("login clicked ");
     getUserdataid();
   });

@@ -124,7 +124,8 @@ const deleteNotes = (req, res) => {
   });
 };
 const performSearch = (req, res) => {
-  let queryString = req.query.query;
+  let queryString1 = req.body;
+  let queryString = JSON.stringify(queryString1)
   let resData = [];
   model.getAllNotes((error, result) => {
     if (!error) {
@@ -132,8 +133,7 @@ const performSearch = (req, res) => {
       result.forEach((notes) => {
         if (notes.title) {
           if (
-            notes.title.toLowerCase().includes(queryString) ||
-            notes.description.toLowerCase().includes(queryString)
+            notes.title.toLowerCase().includes(queryString)
           ) {
             resData.push(notes);
           }
