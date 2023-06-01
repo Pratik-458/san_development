@@ -11,12 +11,13 @@ const addCards = (items) => {
       item.title +
       "</h1><p>" +
       item.description +
-      '</p><div class="col s12 center-align"><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="updateNotesButton" data-target="modal2"><i class="material-icons center">mode_edit</i></a><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="deleteNotesButton"><i class="material-icons center">delete_forever</i></a><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="generateSummaryButton"><i class="material-icons center">format_quote</i></a></div></div>';
+      '</p><div class="col s12 center-align"><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="updateButton" data-target="updateNotesButton"><i class="material-icons center">mode_edit</i></a><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="deleteButton" data-target="deleteNotesButton"><i class="material-icons center">delete_forever</i></a><a class="waves-effect waves-light btn-small click-me-button modal-trigger blue darken-4 lighten-2" id="generateSummaryButton"><i class="material-icons center">format_quote</i></a></div></div>';
     $("#card-section").append(itemToAppend);
   });
 };
 
 var userdata = [];
+var userNotes = {};
 
 //getting user data from html
 const submitUserForm = () => {
@@ -25,7 +26,14 @@ const submitUserForm = () => {
   formData.lastName = $("#Lastname").val();
   formData.email = $("#email").val();
   formData.password = $("#password").val();
-  addUserData(formData);
+  //emailUser = $("#email").val();
+
+  if (formData.email != "" && formData.password != "") {
+    addUserData(formData);
+    location.href = "/login";
+  } else {
+    alert("Please, fill all values");
+  }
 };
 
 // need to update from local storage
@@ -38,6 +46,59 @@ const submitNotesForm = () => {
     $("#description").val() === "" ? speechData : $("#description").val();
   addNotesData(NoteData);
   location.reload();
+};
+const updateNotesForm = () => {
+  let NoteData = {};
+  let noteID;
+  NoteData.title = $("#title2").val();
+
+  for (var i = 0; i < userNotes.length; i++) {
+    if (userNotes[i].title == NoteData.title) {
+      noteID = userNotes[i].noteId;
+    }
+  }
+
+  NoteData.noteId = noteID;
+  NoteData.email = localStorage.getItem("email");
+  NoteData.description = $("#description2").val();
+
+  updateNotes(NoteData);
+  location.reload();
+};
+
+const deleteNoteTrigger = () => {
+  let NoteData = {};
+  let noteID;
+  NoteData.title = $("#title3").val();
+
+  for (var i = 0; i < userNotes.length; i++) {
+    if (userNotes[i].title == NoteData.title) {
+      noteID = userNotes[i].noteId;
+    }
+  }
+
+  NoteData.noteId = noteID;
+  NoteData.email = localStorage.getItem("email");
+  NoteData.description = $("#description3").val();
+
+  deleteNotes(NoteData);
+  location.reload();
+};
+
+// Search function
+const getsearchfunction = () => {
+  let data = $("#search").val;
+  $.ajax({
+    url: "/notes/search",
+    data: data,
+    type: "GET",
+    success: (result) => {
+      let ddata = result;
+      alert(result.message);
+      console.log(ddata);
+      //location.reload();
+    },
+  });
 };
 
 //TO get all the data
@@ -55,9 +116,31 @@ const getAllUserNotes = () => {
     (response) => {
       if (response.statusCode === 200) {
         addCards(response.data);
+        userNotes = response.data;
       }
     }
   );
+};
+
+const updateNotes = (notes) => {
+  $.ajax({
+    url: "/api/notes",
+    type: "PUT",
+    data: notes,
+    success: (result) => {
+      alert(result.message);
+    },
+  });
+};
+const deleteNotes = (notes) => {
+  $.ajax({
+    url: "/api/notes",
+    type: "DELETE",
+    data: notes,
+    success: (result) => {
+      alert(result.message);
+    },
+  });
 };
 
 //getting partiular data id
@@ -66,19 +149,25 @@ const getUserdataid = () => {
   let data = {};
   data.email = $("#email").val();
   data.password = $("#password").val();
-  for (var i = 0; i < userdata.length; i++) {
-    if (data.email == userdata[i].email) {
-      k = 1;
-      if (data.password == userdata[i].password) {
-        localStorage.setItem("email", userdata[i].email);
-      } else {
-        alert("password wrong");
+
+  if (data.email != "" && data.password != "") {
+    for (var i = 0; i < userdata.length; i++) {
+      if (data.email == userdata[i].email) {
+        k = 1;
+        if (data.password == userdata[i].password) {
+          localStorage.setItem("email", userdata[i].email);
+          location.href = "/home";
+        } else {
+          window.alert("password wrong");
+        }
       }
     }
-  }
 
-  if (k == 0) {
-    alert("User not registered");
+    if (k == 0) {
+      alert("User not registered");
+    }
+  } else {
+    alert("Please, fill all values");
   }
 };
 
@@ -87,7 +176,7 @@ const addUserData = (data) => {
   let flag = 0;
   for (var i = 0; i < userdata.length; i++) {
     if (data.email == userdata[i].email) {
-      alert("User already existe, please login");
+      alert("User already exists, please login");
       flag = 1;
       exit;
     }
@@ -148,6 +237,14 @@ $(document).ready(function () {
 
   $("#noteSubmit").click(() => {
     submitNotesForm();
+  });
+
+  $("#noteUpdate").click(() => {
+    updateNotesForm();
+  });
+
+  $("#deleteNote").click(() => {
+    deleteNoteTrigger();
   });
 
   $("#signupformSubmit").click(() => {

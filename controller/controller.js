@@ -124,8 +124,8 @@ const summarizeNotesC = (req, res) => {
 
 const updateNotesC = async (req, res) => {
   let note = req.body;
-  let userId = req.params.userId;
-  let noteId = req.params.noteId;
+  let userId = req.body.email;
+  let noteId = req.body.noteId;
   if (Object.keys(req.body).length === 0) {
     res.status(400);
     res.json({
@@ -166,10 +166,7 @@ const performSearchC = (req, res) => {
       queryString = queryString.replace(/[^a-zA-Z ]/g, "").toLowerCase();
       result.forEach((notes) => {
         if (notes.title) {
-          if (
-            notes.title.toLowerCase().includes(queryString) ||
-            notes.description.toLowerCase().includes(queryString)
-          ) {
+          if (notes.title.toLowerCase().includes(queryString)) {
             resData.push(notes);
           }
         }

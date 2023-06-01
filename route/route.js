@@ -42,8 +42,8 @@ router.put("/api/summary", (req, res) => {
   summarizeNotesC(req, res);
 });
 
-router.put("/api/notes/:userid/:noteid", async (req, res) => {
-  updateNotesC(req, res);
+router.put("/api/notes", async (req, res) => {
+  controller.updateNotes(req, res);
 });
 
 router.delete("/api/notes/", (req, res) => {
