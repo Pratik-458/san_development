@@ -135,6 +135,8 @@ const genSummary = () => {
   for (var i = 0; i < userNotes.length; i++) {
     if (userNotes[i].title == noteData.title) {
       noteID = userNotes[i].noteId;
+      noteData.description = userNotes[i].description;
+      break;
     }
   }
   noteData.noteId = noteID;
@@ -147,7 +149,7 @@ const genSummary = () => {
 const getsearchfunction = () => {
   let data = $("#search").val;
   $.ajax({
-    url: "/notes/search",
+    url: "/notes/search?email="+localStorage.getItem("email"),
     data: data,
     type: "GET",
     success: (result) => {
@@ -158,6 +160,22 @@ const getsearchfunction = () => {
     },
   });
 };
+
+$("#search").change(function(){
+  var searchText = this.value;
+  if(this.value.length > 2){
+      $.get('/notes/search?query='+searchText+"&email="+localStorage.getItem("email"), (res) => {
+          if (res.statusCode === 200) {
+            $('#card-section').empty()
+            addCards(res.data);
+          }else{
+              console.log("error while getting search results");
+          }
+      }); 
+  }else if(this.value.length == 0){
+    getAllUserNotes();
+  }
+});
 
 //TO get all the data
 const getUserData = () => {
