@@ -1,7 +1,22 @@
-// 1. if there is no body provided we should return an error.
+// performs a get request. API should return 200 with a success message
 
-// 2. if a body is provided API should return 200 with a success message
-
-const expect = require("chai").expect;
-const request = require("request");
-const { TESTING_URL } = require("../../constants/tests");
+import chai from "chai";
+import request from "es6-request";
+import { TESTING_URL } from "../../constants/tests.js";
+const { expect } = chai;
+const payload = {
+  title: "test",
+  email: "test",
+  description: "test",
+  noteId: "test",
+};
+describe("Get all notes API", () => {
+  describe("Returns success when api call successfull", () => {
+    it("Status", (done) => {
+      request.get(`${TESTING_URL}/api/notes`).then(([_, response]) => {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+  });
+});
