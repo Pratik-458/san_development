@@ -159,14 +159,15 @@ const deleteNotesC = (req, res) => {
   });
 };
 const performSearchC = (req, res) => {
-  let queryString = req.query.query;
+  let query= req.query.query;
+  let email = req.query.email;
   let resData = [];
-  getAllNotes((error, result) => {
+  getNotesByUserId(email,(error, result) => {
     if (!error) {
-      queryString = queryString.replace(/[^a-zA-Z ]/g, "").toLowerCase();
+      query = query.replace(/[^a-zA-Z ]/g, "").toLowerCase();
       result.forEach((notes) => {
         if (notes.title) {
-          if (notes.title.toLowerCase().includes(queryString)) {
+          if (notes.title.toLowerCase().includes(query)) {
             resData.push(notes);
           }
         }
